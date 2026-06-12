@@ -9,7 +9,7 @@ import json
 from datetime import datetime
 
 # ── Config ────────────────────────────────────────────────────────
-BACKEND_URL = st.secrets.get("https://1c2b35f46b2411.lhr.life", "http://localhost:8080")
+BACKEND_URL = st.secrets.get("https://20a1816245f7cb.lhr.life/", "http://localhost:8080")
 # Set BACKEND_URL in Streamlit Cloud secrets (your AMD VM's public IP)
 
 # ── Page Setup ────────────────────────────────────────────────────
