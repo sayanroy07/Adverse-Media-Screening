@@ -72,7 +72,7 @@ with st.sidebar:
 # ── Main UI ───────────────────────────────────────────────────────
 st.title("🔍 Adverse Media Screening Copilot")
 st.caption("Explainable | Source-Traceable | FCA-Aligned Risk Categorisation")
-
+st.write("Backend URL:", BACKEND_URL)
 # Search Bar
 col1, col2 = st.columns([4, 1])
 with col1:
