@@ -22,14 +22,13 @@ entity_name = st.text_input("Enter entity name", placeholder="e.g. HSBC, Wirecar
 search_btn = st.button("🔍 Screen", type="primary")
 
 if search_btn and entity_name:
-    with st.spinner(f"Screening {entity_name}..."):
+    with st.spinner(f"Screening {entity_name}... this may take 60-90 seconds ⏳"):
         try:
             response = requests.post(
                 f"{BACKEND_URL}/screen",
                 json={"entity_name": entity_name},
                 timeout=180
             )
-            with st.spinner(f"Screening {entity_name}... this may take 60-90 seconds"):
             if response.status_code == 200:
                 st.session_state["report"] = response.json()
             else:
