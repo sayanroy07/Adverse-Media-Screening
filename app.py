@@ -19,7 +19,7 @@ with st.sidebar:
             st.error("❌ Cannot reach backend")
 
 with st.sidebar:
-    st.subheader("⚙️ AI Agent Workflow")
+    st.subheader("🤖  AI Agent Workflow")
     def bullet_stream_generator():
         items = [
             "Accepts an entity name (person or company).",
