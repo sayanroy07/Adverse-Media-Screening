@@ -1,12 +1,12 @@
 import streamlit as st
 import requests
-import json
+import json, time
 from datetime import datetime
 
 BACKEND_URL = st.secrets.get("BACKEND_URL", "http://localhost:8080")
 
 st.set_page_config(page_title="Adverse Media Copilot", page_icon="🔍", layout="wide")
-st.title("🔍 Adverse Media / Negative News Screening Copilot (Explainable)")
+st.title("🔍 Adverse Media Screening Copilot")
 st.caption("UK Banking Compliance | FCA-Aligned | Powered by Qwen + vLLM")
 
 with st.sidebar:
@@ -19,19 +19,39 @@ with st.sidebar:
             st.error("❌ Cannot reach backend")
 
 with st.sidebar:
-    st.subheader("⚙️ System Details")
-    st.write("Check Backend")
+    st.subheader("⚙️ AI Agent Workflow")
+    def bullet_stream_generator():
+        items = [
+            "Accepts an entity name (person or company).",
+            "Fetches adverse live news from multiple sources (Google/Bing/etc).",
+            "Disambiguates the entity (e.g., 'John Smith' the banker vs. the footballer).",
+            "Risk scores & ranks across FCA-aligned categories (Financial Crime, Fraud, Bribery).",
+            "Produces an explainable, traceable risk report with a structured workflow.",
+            "Runs on AMD VM (vLLM inference with Qwen 2.5-7B Instructs model) with a Streamlit front-end."]
+
+        for item in items:
+            # Yield the markdown bullet indicator first
+            yield "- "
+            # Stream the text chunk letter by letter or word by word
+            for word in item.split(" "):
+                yield word + " "
+                time.sleep(0.1)
+                # Yield a newline to start the next bullet point properly
+            yield "\n"
+
+    if st.button("Workflow Details:"):
+        st.write_stream(bullet_stream_generator())
 
 entity_name = st.text_input("Enter entity name", placeholder="e.g. HSBC, Wirecard, Jes Staley")
 search_btn = st.button("🔍 Screen", type="primary")
 
 if search_btn and entity_name:
-    with st.spinner(f"Screening {entity_name}... this may take 60-90 seconds ⏳"):
+    with st.spinner(f"Screening {entity_name}..."):
         try:
             response = requests.post(
                 f"{BACKEND_URL}/screen",
                 json={"entity_name": entity_name},
-                timeout=180
+                timeout=120
             )
             if response.status_code == 200:
                 st.session_state["report"] = response.json()
