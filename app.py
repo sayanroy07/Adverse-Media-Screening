@@ -27,8 +27,9 @@ if search_btn and entity_name:
             response = requests.post(
                 f"{BACKEND_URL}/screen",
                 json={"entity_name": entity_name},
-                timeout=120
+                timeout=180
             )
+            with st.spinner(f"Screening {entity_name}... this may take 60-90 seconds"):
             if response.status_code == 200:
                 st.session_state["report"] = response.json()
             else:
