@@ -18,6 +18,10 @@ with st.sidebar:
         except:
             st.error("❌ Cannot reach backend")
 
+with st.sidebar:
+    st.subheader("⚙️ System Details")
+    st.write("Check Backend")
+
 entity_name = st.text_input("Enter entity name", placeholder="e.g. HSBC, Wirecard, Jes Staley")
 search_btn = st.button("🔍 Screen", type="primary")
 
