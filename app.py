@@ -19,6 +19,9 @@ with st.sidebar:
             st.error("❌ Cannot reach backend")
 
 with st.sidebar:
+    st.divider()
+        st.caption("⚡ Powered by Qwen + vLLM on AMD MI300X")
+        st.caption("🧠 Open Source LLM | 🔍 Real-time News")
     st.subheader("🤖  AI Agent Workflow")
     def bullet_stream_generator():
         items = [
