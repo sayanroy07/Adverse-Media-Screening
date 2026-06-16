@@ -6,7 +6,7 @@ from datetime import datetime
 BACKEND_URL = st.secrets.get("BACKEND_URL", "http://localhost:8080")
 
 st.set_page_config(page_title="Adverse Media Copilot", page_icon="🏦", layout="wide")
-st.title("🔍 Adverse Media Screening Copilot")
+st.title("🤖 Adverse Media Screening Copilot")
 st.caption("UK Banking Compliance | FCA-Aligned | Powered by Qwen + vLLM")
 
 with st.sidebar:
