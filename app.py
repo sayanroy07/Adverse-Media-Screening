@@ -71,8 +71,6 @@ if "report" in st.session_state:
 
     # ── LLM Risk Report ──────────────────────────────────────────
     st.subheader("📋 Risk Report")
-    score = report.get("risk_score", 0)
-    st.progress(score / 100)
     st.info(report.get("report", "No report generated"))
 
     # ── Articles ─────────────────────────────────────────────────
