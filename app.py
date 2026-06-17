@@ -3,17 +3,19 @@ import requests
 import json, time
 from datetime import datetime
 
-BACKEND_URL = st.secrets.get("BACKEND_URL", "http://localhost:8080")
+#BACKEND_URL = st.secrets.get("BACKEND_URL", "http://localhost:8080")
 
 st.set_page_config(page_title="Adverse Media Copilot", page_icon="🏦", layout="wide")
-st.title("🤖 Adverse Media / Negative News Screening Copilot (Explainable)")
-st.caption("UK Banking Compliance | FCA-Aligned | Powered by Qwen + vLLM")
+st.title("👤 Adverse Media / Negative News Screening Copilot")
+st.text("🔍 UK Banking Compliance | ⚖️ FCA-Aligned | 🏦 Know Your Customer")
+st.text("🧠 Qwen 2.5 - 7b Instructs | ⚡ vLLM on AMD MI300X | 📰 Real-time News")
+
 
 with st.sidebar:
     st.subheader("⚙️ Settings")
     if st.button("Check Backend"):
         try:
-            r = requests.get(f"{BACKEND_URL}/health", timeout=5)
+            r = requests.get(f"/health", timeout=5)
             st.success(f"✅ Connected: {r.json().get('model')}")
         except:
             st.error("❌ Cannot reach backend")
@@ -42,8 +44,8 @@ with st.sidebar:
     if st.button("Workflow Details:"):
         st.write_stream(bullet_stream_generator())
 
-entity_name = st.text_input("Enter entity name", placeholder="e.g. HSBC, Wirecard, Jes Staley")
-search_btn = st.button("🔍 Screen", type="primary")
+entity_name = st.text_input(label="Enter entity name", placeholder="e.g. HSBC, Wirecard, Jes Staley")
+search_btn = st.button("📝 Screen", type="primary")
 
 if search_btn and entity_name:
     with st.spinner(f"Screening {entity_name}..."):
@@ -69,6 +71,8 @@ if "report" in st.session_state:
 
     # ── LLM Risk Report ──────────────────────────────────────────
     st.subheader("📋 Risk Report")
+    score = report.get("risk_score", 0)
+    st.progress(score / 100)
     st.info(report.get("report", "No report generated"))
 
     # ── Articles ─────────────────────────────────────────────────
