@@ -70,7 +70,7 @@ adverse-media-copilot/
 ├── scripts/
 │   └── start_vLLM.sh            # Start vLLM
 │   └── start_Flask.sh           # Start Flask
-│   └── ssh.sh                   # Expost Flask to Outside Internet
+│   └── expose.sh                   # Expost Flask to Outside Internet
 ```
 
 ---
@@ -79,46 +79,37 @@ adverse-media-copilot/
 
 ### All provided
 
-```bash
-#!/bin/bash
-# Run this ONCE on your AMD VM to set up the environment
-# Tested on: AMD MI300X GPU or EPYC CPU-only VM (Ubuntu 22.04)
+# Check 1: Python version
+python3 --version
+# Need 3.9 or above
+
+# Check 2: Is vLLM already installed?
+python3 -c "import vllm; print(vllm.__version__)"
+# If this prints a version number — skip the vLLM install step entirely
+
+# Check 3: How much GPU memory do you have?
+rocm-smi
+# This shows your AMD GPU and VRAM — tells us which model fits
+pip install flask flask-cors feedparser --ignore-installed blinker
 
 
-### `scripts/start_services.sh`
 
+# AMD GPU version:
+python -m vllm.entrypoints.openai.api_server \
+    --model Qwen/Qwen2.5-7B-Instruct \
+    --served-model-name qwen \
+    --host 0.0.0.0 \
+    --port 8000 \
+    --max-model-len 4096 \
+    --gpu-memory-utilization 0.30 \
+    --dtype bfloat16
 
-
-source ~/copilot_env/bin/activate
 
 # ── 1. Start vLLM server ──────────────────────────────────────────
 echo "Starting vLLM inference server..."
 
 # AMD GPU version:
-python -m vllm.entrypoints.openai.api_server \
-    --model ~/models/mistral-7b-instruct \
-    --served-model-name mistral-7b \
-    --host 0.0.0.0 \
-    --port 8000 \
-    --max-model-len 8192 \
-    --gpu-memory-utilization 0.90 \
-    --dtype float16 &
 
-# CPU-only version (uncomment if no GPU):
-# python -m vllm.entrypoints.openai.api_server \
-#     --model ~/models/mistral-7b-instruct \
-#     --served-model-name mistral-7b \
-#     --host 0.0.0.0 \
-#     --port 8000 \
-#     --device cpu \
-#     --dtype float32 &
-
-VLLM_PID=$!
-echo "vLLM PID: $VLLM_PID"
-
-# Wait for vLLM to be ready
-echo "Waiting for vLLM to initialise (60s)..."
-sleep 60
 
 # ── 2. Start FastAPI backend ──────────────────────────────────────
 echo "Starting FastAPI backend..."
