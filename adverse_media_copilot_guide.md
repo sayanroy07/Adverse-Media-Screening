@@ -79,17 +79,17 @@ adverse-media-copilot/
 
 ### All provided
 
-# Check 1: Python version
+#### Check 1: Python version
 python3 --version
-# Need 3.9 or above
+#### Need 3.9 or above
 
-# Check 2: Is vLLM already installed?
+#### Check 2: Is vLLM already installed?
 python3 -c "import vllm; print(vllm.__version__)"
-# If this prints a version number — skip the vLLM install step entirely
+#### If this prints a version number — skip the vLLM install step entirely
 
-# Check 3: How much GPU memory do you have?
+#### Check 3: How much GPU memory do you have?
 rocm-smi
-# This shows your AMD GPU and VRAM — tells us which model fits
+#### This shows your AMD GPU and VRAM — tells us which model fits
 pip install flask flask-cors feedparser --ignore-installed blinker
 
 
