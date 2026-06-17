@@ -37,7 +37,7 @@ with st.sidebar:
             # Stream the text chunk letter by letter or word by word
             for word in item.split(" "):
                 yield word + " "
-                time.sleep(0.05)
+                time.sleep(0.1)
                 # Yield a newline to start the next bullet point properly
             yield "\n"
 
@@ -66,12 +66,13 @@ if search_btn and entity_name:
 
 if "report" in st.session_state:
     report = st.session_state["report"]
-    ############################## this part added as test ##############################
-    ############################## this part added as test ##############################
+
     st.divider()
 
     # ── LLM Risk Report ──────────────────────────────────────────
     st.subheader("📋 Risk Report")
+    score = report.get("risk_score", 0)
+    st.progress(score / 100)
     st.info(report.get("report", "No report generated"))
 
     # ── Articles ─────────────────────────────────────────────────
