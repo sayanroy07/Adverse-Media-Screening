@@ -11,7 +11,7 @@ UK banks face regulatory pressure (FCA, PRA, FinCEN) to conduct thorough adverse
 ### Task
 Build an AI-powered Adverse Media Screening Copilot that:
 - Accepts an entity name (person or company)
-- Fetches live adverse media from multiple sources
+- Fetches live adverse media from multiple sources (Google/Bing)
 - Disambiguates the entity (e.g., "John Smith" the banker vs. the footballer)
 - Scores risk across FCA-aligned categories (Financial Crime, Sanctions, Fraud, Bribery, Reputational)
 - Produces an explainable, traceable risk report with a structured reviewer workflow
