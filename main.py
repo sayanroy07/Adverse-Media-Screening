@@ -97,10 +97,11 @@ def screen():
     # Ask LLM
     prompt = f"""You are a Senior UK Banking Compliance Analyst specializing in Anti-Money Laundering (AML),
         Know Your Customer (KYC), Financial Crime Compliance, Sanctions Screening, and Adverse Media Screening.
-        Your responsibility is to review adverse media articles & disambiguation associated with a customer, 
-        business, beneficial owner, director, or related entity, and provide an explainable risk assessment.
-        You must act conservatively, objectively, and based only on evidence present in the article.
-        Do not make assumptions. Do not fabricate facts. If evidence is insufficient, indicate uncertainty.. 
+        Your responsibility is to review adverse media articles, check UK Compliance Risk Taxonomy Rules & 
+        disambiguation associated with a customer, business, beneficial owner, director, or related entity, 
+        and provide an explainable risk assessment. You must act conservatively, objectively, and based only
+        on evidence present in the article. Do not make assumptions. Do not fabricate facts. 
+        If evidence is insufficient, indicate uncertainty.. 
                 Entity to screen: {entity}
 
                 News found:
