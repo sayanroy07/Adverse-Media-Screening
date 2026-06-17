@@ -18,16 +18,16 @@ Build an AI-powered Adverse Media Screening Copilot that:
 - Runs on AMD VM (vLLM inference) with a Streamlit front-end
 
 ### Resolution
-- Deployed open-source LLM (Mistral-7B or Llama-3-8B) on AMD MI300X / EPYC VM via vLLM
-- Built a modular FastAPI backend (entity resolution → news fetch → LLM analysis → risk scoring)
+- Deployed open-source LLM (Qwen2.5-7B-Instruct) on AMD MI300X VM via vLLM
+- Built a Flask backend (entity resolution → news fetch → LLM analysis → risk ranking & scoring)
 - Created a Streamlit UI with audit trail, source links, and reviewer sign-off workflow
 - Achieved consistent, explainable risk categorisation aligned to UK banking standards
 
 ### Results
-- Analyst screening time reduced from ~45 min to ~4 min per entity
+- Analyst screening time reduced from ~45 min to ~2 min per entity
 - 100% source traceability — every risk finding links to a dated, sourced article
 - Consistent risk scoring via structured LLM prompting (eliminating inter-analyst variance)
-- Reviewer workflow with Accept / Escalate / Override actions logged for audit
+- Reviewer workflow with Accept / Escalate / Override actions logged for audit 
 
 ---
 
@@ -37,11 +37,11 @@ Build an AI-powered Adverse Media Screening Copilot that:
 ┌─────────────────────────────────────────────────────────────────┐
 │                        AMD Cloud VM                             │
 │                                                                 │
-│  ┌─────────────────┐    ┌──────────────────────────────────┐   │
-│  │   vLLM Server   │    │        FastAPI Backend            │   │
-│  │  (port 8000)    │◄───│  main.py  │  entity_resolver.py  │   │
-│  │  Mistral-7B or  │    │  news_fetcher.py │ risk_scorer.py │   │
-│  │  Llama-3-8B     │    └──────────────────────────────────┘   │
+│  ┌─────────────────┐    ┌──────────────────────────────────┐    │
+│  │   vLLM Server   │    │        Flask   Backend           │    │
+│  │  (port 8000)    │◄───│          main.py                 │    │
+│  │  Qwen-7B        │    | (Fetch, Review, Rank, Evidence)  │    │
+│  │                 │    └──────────────────────────────────┘    │
 │  └─────────────────┘              ▲                             │
 │                                   │ HTTP                        │
 └───────────────────────────────────┼─────────────────────────────┘
@@ -49,9 +49,9 @@ Build an AI-powered Adverse Media Screening Copilot that:
                           ┌─────────┴────────┐
                           │  Streamlit App   │
                           │   (app.py)       │
-                          │  GitHub / Local  │
+                          │    GitHub        │
                           └──────────────────┘
-                                    │
+                                   │
                                Browser UI
 ```
 
