@@ -75,9 +75,8 @@ adverse-media-copilot/
 
 ---
 
-## Part 1: AMD VM Setup (Run on AMD Cloud VM)
 
-### All provided
+### AMD VM Setup (Run on AMD Cloud VM)
 
 #### Check 1: Python version
 python3 --version
@@ -258,12 +257,21 @@ if __name__ == "__main__":
 python main.py
 
 
-#### Start Flask app:
-python main.py
+#### Check Model:
+curl -X POST http://localhost:8080/screen \
+  -H "Content-Type: application/json" \
+  -d '{"entity_name": "revolut"}'
 
 
+#### Expose Localhost:
+ssh -R 80:localhost:8080 nokey@localhost.run
 
-## Deployment Map
+
+#### Now feed this newly generated url within Streamlit 
+BACKEND_URL = .......
+
+
+### Deployment Map
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -271,24 +279,19 @@ python main.py
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                         │
 │  AMD Cloud VM (always-on)                                               │
-│  ├── vLLM server            → python -m vllm.entrypoints.openai...     │
-│  ├── backend/main.py        → uvicorn main:app --port 8080             │
-│  ├── backend/models.py                                                  │
-│  ├── backend/prompts.py                                                 │
-│  ├── backend/entity_resolver.py                                         │
-│  ├── backend/news_fetcher.py                                            │
-│  ├── backend/risk_scorer.py                                             │
-│  └── backend/config.py                                                  │
+│  ├── vLLM server            → python -m vllm.entrypoints.openai...      │
+│  ├── backend/main.py        → python main.py                            │
 │                                                                         │
-│  GitHub Repository (public or private)                                  │
-│  ├── frontend/app.py        ← Streamlit Cloud reads this               │
+│  GitHub Repository (public)                                             │
+│  ├── frontend/app.py        ← Streamlit Cloud reads this                │
 │  ├── frontend/requirements_frontend.txt                                 │
-│  └── README.md                                                          │
+│  ├── frontend/requirements_backend.txt                                  │
+│  └── adverse_media_copilot_guide.md                                     │
 │                                                                         │
-│  Streamlit Cloud                                                         │
+│  Streamlit Cloud                                                        │
 │  ├── Deploys from GitHub automatically on push                          │
-│  ├── Secret: BACKEND_URL = http://<your-amd-vm-ip>:8080                │
-│  └── No model weights, no heavy compute here                           │
+│  ├── Secret: BACKEND_URL = http://<your-amd-vm-ip>:8080                 │
+│  └── No model weights, no heavy compute here                            │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
