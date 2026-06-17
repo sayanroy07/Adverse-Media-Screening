@@ -290,7 +290,7 @@ BACKEND_URL = .......
 │                                                                         │
 │  Streamlit Cloud                                                        │
 │  ├── Deploys from GitHub automatically on push                          │
-│  ├── Secret: BACKEND_URL = http://<your-amd-vm-ip>:8080                 │
+│  ├── Secret: BACKEND_URL = http://<amd-vm-ip>:8080                 │
 │  └── No model weights, no heavy compute here                            │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -298,9 +298,9 @@ BACKEND_URL = .......
 ```
 ### On Streamlit Cloud
 1. Go to share.streamlit.io → New app
-2. Repo: `yourusername/adverse-media-copilot`
-3. Main file: `frontend/app.py`
-4. Secrets: `BACKEND_URL = "http://YOUR_AMD_VM_IP:8080"`
+2. Repo: `[github.com/sayanroy07](https://github.com/sayanroy07/Adverse-Media-Screening/]`
+3. Main file: `app.py`
+4. Secrets: `BACKEND_URL = "http://AMD_VM_IP:8080"`
 5. Deploy ✅
 
 
