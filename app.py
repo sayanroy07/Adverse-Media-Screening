@@ -3,7 +3,7 @@ import requests
 import json, time
 from datetime import datetime
 
-#BACKEND_URL = st.secrets.get("BACKEND_URL", "http://localhost:8080")
+BACKEND_URL = st.secrets.get("BACKEND_URL", "http://localhost:8080")
 
 st.set_page_config(page_title="Adverse Media Copilot", page_icon="🏦", layout="wide")
 st.title("👤 Adverse Media / Negative News Screening Copilot")
@@ -15,7 +15,7 @@ with st.sidebar:
     st.subheader("⚙️ Settings")
     if st.button("Check Backend"):
         try:
-            r = requests.get(f"/health", timeout=5)
+            r = requests.get(f"{BACKEND_URL}/health", timeout=5)
             st.success(f"✅ Connected: {r.json().get('model')}")
         except:
             st.error("❌ Cannot reach backend")
