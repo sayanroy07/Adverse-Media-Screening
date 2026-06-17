@@ -63,7 +63,6 @@ Build an AI-powered Adverse Media Screening Copilot that:
 adverse-media-copilot/
 ├── backend/
 │   ├── main.py                  # Flask app entry point with all logics put together
-│   ├── entity_resolver.py       # Entity disambiguation logic
 │   └── requirements_backend.txt
 ├── frontend/
 │   ├── app.py                   # Streamlit UI
