@@ -66,7 +66,31 @@ if search_btn and entity_name:
 
 if "report" in st.session_state:
     report = st.session_state["report"]
+    ############################## this part added as test ##############################
+    risk = report.get("overall_risk", "CLEAR")
+    score = report.get("risk_score", 0)
 
+    # ── Color coding ─────────────────────────────────────────
+    risk_config = {
+        "HIGH":   {"color": "#dc2626", "bg": "#fef2f2", "icon": "🔴", "bar": "red"},
+        "MEDIUM": {"color": "#d97706", "bg": "#fffbeb", "icon": "🟡", "bar": "orange"},
+        "LOW":    {"color": "#2563eb", "bg": "#eff6ff", "icon": "🔵", "bar": "blue"},
+        "CLEAR":  {"color": "#16a34a", "bg": "#f0fdf4", "icon": "🟢", "bar": "green"},
+    }
+    cfg = risk_config.get(risk, risk_config["CLEAR"])
+
+    # ── Risk banner ──────────────────────────────────────────
+    st.markdown(f"""
+    <div style="background:{cfg['bg']};border-left:6px solid {cfg['color']};
+    padding:16px;border-radius:8px;margin:12px 0">
+        <h2 style="color:{cfg['color']};margin:0">{cfg['icon']} {risk} RISK</h2>
+        <p style="color:{cfg['color']};margin:4px 0">Risk Score: {score}/100</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── Progress bar ─────────────────────────────────────────
+    st.progress(score / 100)
+    ############################## this part added as test ##############################
     st.divider()
 
     # ── LLM Risk Report ──────────────────────────────────────────
