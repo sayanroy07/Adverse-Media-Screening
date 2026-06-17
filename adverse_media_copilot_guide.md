@@ -62,78 +62,33 @@ Build an AI-powered Adverse Media Screening Copilot that:
 ```
 adverse-media-copilot/
 ├── backend/
-│   ├── main.py                  # FastAPI app entry point
+│   ├── main.py                  # Flask app entry point with all logics put together
 │   ├── entity_resolver.py       # Entity disambiguation logic
-│   ├── news_fetcher.py          # News API + web scraping
-│   ├── risk_scorer.py           # LLM-based risk scoring
-│   ├── prompts.py               # All LLM prompt templates
-│   ├── models.py                # Pydantic data models
 │   └── requirements_backend.txt
 ├── frontend/
 │   ├── app.py                   # Streamlit UI
 │   └── requirements_frontend.txt
 ├── scripts/
-│   ├── setup_vllm.sh            # AMD VM setup script
-│   └── start_services.sh        # Start vLLM + FastAPI
-├── .env.example
-└── README.md
+│   └── start_vLLM.sh            # Start vLLM
+│   └── start_Flask.sh           # Start Flask
+│   └── ssh.sh                   # Expost Flask to Outside Internet
 ```
 
 ---
 
 ## Part 1: AMD VM Setup (Run on AMD Cloud VM)
 
-### `scripts/setup_vllm.sh`
+### All provided
 
 ```bash
 #!/bin/bash
 # Run this ONCE on your AMD VM to set up the environment
 # Tested on: AMD MI300X GPU or EPYC CPU-only VM (Ubuntu 22.04)
 
-set -e
-
-echo "=== Adverse Media Copilot — AMD VM Setup ==="
-
-# 1. System dependencies
-sudo apt-get update && sudo apt-get install -y \
-    python3.11 python3.11-venv python3-pip \
-    git curl wget build-essential
-
-# 2. Create virtual environment
-python3.11 -m venv ~/copilot_env
-source ~/copilot_env/bin/activate
-
-# 3. Install vLLM (ROCm build for AMD GPUs)
-# For AMD GPU (MI300X / RX 7900):
-pip install vllm --extra-index-url https://download.pytorch.org/whl/rocm6.1
-
-# For CPU-only AMD EPYC (slower but works):
-# pip install vllm
-
-# 4. Install backend dependencies
-pip install fastapi uvicorn httpx pydantic python-dotenv \
-    newspaper3k feedparser requests beautifulsoup4 \
-    openai  # openai client is reused to call vLLM's OpenAI-compatible API
-
-# 5. Download model (Mistral 7B Instruct — fits in 16GB VRAM)
-pip install huggingface_hub
-huggingface-cli download mistralai/Mistral-7B-Instruct-v0.3 \
-    --local-dir ~/models/mistral-7b-instruct
-
-# Alternative: Llama-3-8B (better reasoning, needs 18GB+ VRAM)
-# huggingface-cli download meta-llama/Meta-Llama-3-8B-Instruct \
-#     --local-dir ~/models/llama-3-8b-instruct \
-#     --token YOUR_HF_TOKEN  # Llama requires HF login
-
-echo "=== Setup complete ==="
-echo "Next: run ./scripts/start_services.sh"
-```
 
 ### `scripts/start_services.sh`
 
-```bash
-#!/bin/bash
-# Run this every time you start the AMD VM session
+
 
 source ~/copilot_env/bin/activate
 
