@@ -37,7 +37,7 @@ with st.sidebar:
             # Stream the text chunk letter by letter or word by word
             for word in item.split(" "):
                 yield word + " "
-                time.sleep(0.3)
+                time.sleep(0.05)
                 # Yield a newline to start the next bullet point properly
             yield "\n"
 
