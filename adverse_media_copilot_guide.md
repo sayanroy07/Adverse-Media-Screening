@@ -68,9 +68,9 @@ adverse-media-copilot/
 │   ├── app.py                   # Streamlit UI
 │   └── requirements_frontend.txt
 ├── scripts/
-│   └── start_vLLM.sh            # Start vLLM
-│   └── start_Flask.sh           # Start Flask
-│   └── expose.sh                   # Expost Flask to Outside Internet
+    └── start_vLLM.sh            # Start vLLM
+    └── start_Flask.sh           # Start Flask
+    └── expose.sh                # Expost Flask to Outside Internet
 ```
 
 ---
@@ -294,42 +294,8 @@ BACKEND_URL = .......
 │  └── No model weights, no heavy compute here                            │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
+
 ```
-
----
-
-## Step-by-Step Deployment Checklist
-
-### On AMD VM
-```bash
-# 1. Clone repo
-git clone https://github.com/yourusername/adverse-media-copilot
-cd adverse-media-copilot
-
-# 2. Run setup
-chmod +x scripts/setup_vllm.sh
-./scripts/setup_vllm.sh
-
-# 3. Start services
-chmod +x scripts/start_services.sh
-./scripts/start_services.sh
-
-# 4. Open firewall port 8080
-sudo ufw allow 8080
-
-# 5. Test backend
-curl http://localhost:8080/health
-curl http://your-vm-public-ip:8080/health
-```
-
-### On GitHub
-```bash
-# Push only frontend + README (backend stays on VM only for security)
-git add frontend/ README.md
-git commit -m "Add Streamlit frontend"
-git push origin main
-```
-
 ### On Streamlit Cloud
 1. Go to share.streamlit.io → New app
 2. Repo: `yourusername/adverse-media-copilot`
@@ -337,24 +303,15 @@ git push origin main
 4. Secrets: `BACKEND_URL = "http://YOUR_AMD_VM_IP:8080"`
 5. Deploy ✅
 
----
 
-## Risk Scoring Reference (FCA-Aligned)
-
+``
+### Risk Scoring Reference (FCA-Aligned)
+________________________________________________________________________________
 | Score | Level  | Recommendation        | Action                              |
 |-------|--------|-----------------------|-------------------------------------|
-| 80-100| HIGH   | Escalate to MLRO      | Mandatory SAR consideration         |
-| 50-79 | MEDIUM | Enhanced Due Diligence| Additional KYC, ongoing monitoring  |
-| 20-49 | LOW    | Monitor               | Note on file, periodic review       |
-| 0-19  | CLEAR  | Clear to Proceed      | Standard onboarding                 |
-
----
-
-## Model Selection Guide
-
-| Model              | VRAM  | Speed | Quality | Recommended For          |
-|--------------------|-------|-------|---------|--------------------------|
-| Mistral-7B-Instruct| 16GB  | Fast  | Good    | Most AMD VMs, hackathon  |
-| Llama-3-8B-Instruct| 18GB  | Fast  | Better  | MI300X, A100             |
-| Mixtral-8x7B       | 48GB+ | Slow  | Best    | Production / multi-GPU   |
-| Phi-3-mini-4k      | 8GB   | Fastest| Fair   | CPU-only / edge           |
+| 81-100| HIGH   | Reject                | Mandatory SAR consideration         |
+| 61-80 | HIGH   | Escalate to MLRO      | Mandatory SAR consideration         |
+| 41-60 | MEDIUM | Enhanced Due Diligence| Additional KYC, ongoing monitoring  |
+| 21-40 | LOW    | Minor concerns        | Note on file, periodic review       |
+| 0-20  | CLEAR  | Clear to Proceed      | Standard onboarding                 |
+________________________________________________________________________________
