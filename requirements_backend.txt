@@ -1,2 +1,3 @@
-streamlit
-requests
+flask 
+flask-cors 
+feedparser --ignore-installed blinker
